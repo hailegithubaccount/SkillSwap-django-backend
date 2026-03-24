@@ -79,18 +79,18 @@ class RegisterSerializer(serializers.Serializer):
         UserProfile.objects.create(user=user, location=validated_data['location'])
         return user
 
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     _id = serializers.ReadOnlyField(source='id')
-#     name = serializers.CharField(source='first_name', read_only=True)
-#     email = serializers.CharField(read_only=True)
-#     location = serializers.CharField(source='profile.location', read_only=True)
-#     profile_image = serializers.SerializerMethodField()
+class UserProfileSerializer(serializers.ModelSerializer):
+    _id = serializers.ReadOnlyField(source='id')
+    name = serializers.CharField(source='first_name', read_only=True)
+    email = serializers.CharField(read_only=True)
+    location = serializers.CharField(source='profile.location', read_only=True)
+    profile_image = serializers.SerializerMethodField()
 
-#     class Meta:
-#         model = User
-#         fields = ['_id', 'name', 'email', 'location', 'profile_image']
+    class Meta:
+        model = User
+        fields = ['_id', 'name', 'email', 'location', 'profile_image']
 
-#     def get_profile_image(self, obj):
-#         if hasattr(obj, 'profile') and obj.profile.profile_image:
-#             return obj.profile.profile_image.url
-#         return None
+    def get_profile_image(self, obj):
+        if hasattr(obj, 'profile') and obj.profile.profile_image:
+            return obj.profile.profile_image.url
+        return None
